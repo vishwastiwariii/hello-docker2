@@ -11,9 +11,7 @@ on:
 
 
 jobs: 
-  rebuilding_image: 
-    runs_on: ubuntu-latest
-    name: Rebuilding the backend docker image 
+  build: 
     steps: 
       - name: Checkout the code
         uses: actions/checkout@v2
