@@ -1,0 +1,33 @@
+# Build the docker image 
+# Push docker image to docker hub
+# SSH into VM and start the new image 
+
+name: Starting backend docker image 
+
+on: 
+  push: 
+    branches: 
+     - "main"
+
+
+jobs: 
+  rebuilding_image: 
+    runs_on: ubuntu-latest
+    name: Rebuilding the backend docker image 
+    steps: 
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Docker login 
+        uses: docker/login-action@v2
+        with: 
+            username:  ${{ secrets.DOCKERHUB_USERNAME }}
+            password:  ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build & Push 
+        uses: docker/build-push-action@v4
+        with: 
+            context: .
+            file: ./docker/Dockerfile.backend
+            push: true
+            tags: hello-docker/backend:${{ github.sha }}
